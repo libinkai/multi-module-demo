@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--生成 toString 方法-->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+
+        <!-- 自定义注释 -->
+        <commentGenerator>
+            <!-- 是否生成注释代时间戳-->
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--连接数据库-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/db_falcon?useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true" userId="root" password="123456"/>
+
+
+        <!-- 是否使用bigDecimal默认false：把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时：把JDBC DECIMAL 和NUMERIC 类型解析为java.math.BigDecimal-->
+        <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--生成PO（Java实体类）-->
+        <javaModelGenerator targetPackage="com.equator.model.po" targetProject="../model/src/main/java">
+            <!-- 是否对model添加 构造构造方法，构造方法包含了所有的field；而不是使用setter方法 -->
+            <property name="constructorBased" value="true"/>
+            <!-- 是否允许子包，默认为false，在targetPackage的基础上，根据数据库的schema再生成一层package，最终生成的类放在这个package下，即targetPackage.schemaName.tableName -->
+            <property name="enableSubPackages" value="false"/>
+            <!-- 从数据库返回的值被清理前后的空格 -->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!--生成mapper-->
+        <sqlMapGenerator targetPackage="com.equator.dao.generate" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!--生成dao接口-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.equator.dao.generate" targetProject="./src/main/java">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!--对哪些表进行逆向工程-->
+        <!--如果对domainObjectName没有要求，tableName可以使用%通配-->
+        <table tableName="%" domainObjectName="">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+    </context>
+</generatorConfiguration>
